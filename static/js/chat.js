@@ -68,7 +68,9 @@ $('form').submit(function (evt) {
   let data;
   if ($("#m").val() === "/joke"){
     data = {type: "get-joke"}
-  } else {
+  } else if($("#m").val() === "/members"){ 
+    data = {type: "note"}
+  }else {
     data = {type: "chat", text: $("#m").val()};
   }
   

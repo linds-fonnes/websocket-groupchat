@@ -48,7 +48,7 @@ class ChatUser {
     });
   }
 
-  /** handle client request for a joke  */
+  /** handle client request for a joke, displays only to user who requested the joke  */
   
 
   handleJoke(){
@@ -69,7 +69,17 @@ class ChatUser {
     if (msg.type === 'join') this.handleJoin(msg.name);
     else if (msg.type === 'chat') this.handleChat(msg.text);
     else if (msg.type === "get-joke") this.handleJoke();
+    else if (msg.type === "note") this.listMembers();
     else throw new Error(`bad message: ${msg.type}`);
+  }
+
+  listMembers(){
+    let members_list = []
+    this.room.members.forEach(member => members_list.push(member.name))
+    this.room.personal(this.name, {
+      type: "note",
+      text: `Members: ${members_list}`
+    })
   }
 
   /** Connection was closed: leave room, announce exit to others */
