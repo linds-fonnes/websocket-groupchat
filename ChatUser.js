@@ -12,6 +12,7 @@ class ChatUser {
     this._send = send; // "send" function for this user
     this.room = Room.get(roomName); // room user will be in
     this.name = null; // becomes the username of the visitor
+    this.jokes = ["3 Database SQL walk into a NoSQL bar. A little while later, they walked out. They couldn't find a table.", "I could tell you a joke about UDP but I don't know if you would get it.", ".titanic { float: none;}", " Q: Whats the object-oriented way to become wealthy? A: Inheritance", "Q: Why did the programmer quit his job? A: Because he didn't get arrays"]
 
     console.log(`created chat in ${this.room.name}`);
   }
@@ -47,6 +48,15 @@ class ChatUser {
     });
   }
 
+  /** handle client request for a joke  */
+  
+
+  handleJoke(){
+    this.room.personal(this.name,{
+      type: "get-joke",
+      text: this.jokes[Math.floor(Math.random() * this.jokes.length)]
+    })
+  }
   /** Handle messages from client:
    *
    * - {type: "join", name: username} : join
@@ -58,6 +68,7 @@ class ChatUser {
 
     if (msg.type === 'join') this.handleJoin(msg.name);
     else if (msg.type === 'chat') this.handleChat(msg.text);
+    else if (msg.type === "get-joke") this.handleJoke();
     else throw new Error(`bad message: ${msg.type}`);
   }
 

@@ -51,6 +51,14 @@ class Room {
       member.send(JSON.stringify(data));
     }
   }
+
+  personal(name,data){
+    this.members.forEach( member => {
+      if(member.name === name){
+        member.send(JSON.stringify(data))
+      }
+    })
+  }
 }
 
 module.exports = Room;
